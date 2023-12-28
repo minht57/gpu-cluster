@@ -1,0 +1,20 @@
+site_name: GPU Cluster
+theme:
+  name: material
+  features:
+    - navigation.tabs
+
+# Page tree
+nav:
+  - Home:
+      - Introduction: index.md
+      - Architecture: arch/architecture.md
+  - Setup:
+      - Host machine: setup/native-machine.md
+      - KVM: setup/kvm.md
+      - vGPU: setup/vgpu.md
+      - Kubenetes: setup/kubenetes.md
+      - Moodle: setup/moodle.md
+      - Jupyter: setup/jupyter.md
+      - Others: setup/others.md
+  - Useful commands: commands/commands.md
