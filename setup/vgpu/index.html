@@ -1,0 +1,1287 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../kvm/">
+      
+      
+        <link rel="next" href="../kubenetes/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>vGPU - GPU Cluster</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vgpu" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="GPU Cluster" class="md-header__button md-logo" aria-label="GPU Cluster" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GPU Cluster
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              vGPU
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../native-machine/" class="md-tabs__link">
+          
+  
+  Setup
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../new_images/new_images/" class="md-tabs__link">
+        
+  
+    
+  
+  Creating new images
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../commands/commands/" class="md-tabs__link">
+        
+  
+    
+  
+  Useful commands
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="GPU Cluster" class="md-nav__button md-logo" aria-label="GPU Cluster" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    GPU Cluster
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../arch/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Setup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../native-machine/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Host machine
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kvm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KVM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    vGPU
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    vGPU
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install dependencies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-dependencies_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install dependencies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download driver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-current-nvidia-driver-if-existing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remove current NVIDIA driver if existing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#host-machine-compute-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Host machine (compute node)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Host machine (compute node)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disable-nouveau-and-enable-nvfio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disable Nouveau and enable nvfio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-x-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disable X server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install driver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-vgpu-deprecated" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring vGPU [Deprecated]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-vgpu-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create vGPU manually
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-all-vgpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create all vGPU
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-one-or-more-vgpus-to-a-linux-with-kvm-hypervisor-vm-by-using-virsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding One or More vGPUs to a Linux with KVM Hypervisor VM by Using virsh
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      VMs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-to-the-vm-via-virsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access to the VM via virsh
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-to-the-vm-via-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access to the VM via ssh
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubenetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubenetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../moodle/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Moodle
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jupyter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Jupyter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Others
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../new_images/new_images/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Creating new images
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Useful commands
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install dependencies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-dependencies_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install dependencies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download driver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-current-nvidia-driver-if-existing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remove current NVIDIA driver if existing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#host-machine-compute-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Host machine (compute node)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Host machine (compute node)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disable-nouveau-and-enable-nvfio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disable Nouveau and enable nvfio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-x-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disable X server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install driver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-vgpu-deprecated" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring vGPU [Deprecated]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-vgpu-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create vGPU manually
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-all-vgpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create all vGPU
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-one-or-more-vgpus-to-a-linux-with-kvm-hypervisor-vm-by-using-virsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding One or More vGPUs to a Linux with KVM Hypervisor VM by Using virsh
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      VMs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-to-the-vm-via-virsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access to the VM via virsh
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-to-the-vm-via-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access to the VM via ssh
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="vgpu">vGPU</h1>
+<h2 id="install-dependencies">Install dependencies</h2>
+<h3 id="install-dependencies_1">Install dependencies</h3>
+<pre><code class="language-bash">sudo apt install unzip
+</code></pre>
+<h3 id="download-driver">Download driver</h3>
+<ul>
+<li>Download package <code>NVIDIA-GRID-Ubuntu-KVM-525.85.07-525.85.05-528.24.zip</code></li>
+<li>Create token for licensing</li>
+<li>Extract</li>
+</ul>
+<pre><code class="language-bash">mkdir -p /mnt/nfs/vGPU
+unzip NVIDIA-GRID-Ubuntu-KVM-525.85.07-525.85.05-528.24.zip -d /mnt/nfs/vGPU
+</code></pre>
+<h3 id="remove-current-nvidia-driver-if-existing">Remove current NVIDIA driver if existing</h3>
+<pre><code class="language-bash">bash /mnt/local/NVIDIA-Linux-x86_64-450.216.04.run --uninstall
+</code></pre>
+<h2 id="host-machine-compute-node">Host machine (compute node)</h2>
+<h3 id="disable-nouveau-and-enable-nvfio">Disable Nouveau and enable nvfio</h3>
+<pre><code class="language-bash">echo -e &quot;vfio\nvfio_iommu_type1\nvfio_pci\nvfio_virqfd&quot; &gt;&gt; /etc/modules
+echo &quot;blacklist nouveau&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf
+update-initramfs -u -k all
+</code></pre>
+<h3 id="disable-x-server">Disable X server</h3>
+<pre><code class="language-bash">sudo init 3
+</code></pre>
+<ul>
+<li>Ref: <a href="https://unix.stackexchange.com/questions/25668/how-to-close-x-server-to-avoid-errors-while-updating-nvidia-driver">link</a></li>
+</ul>
+<h3 id="install-driver">Install driver</h3>
+<pre><code class="language-bash">cd /mnt/nfs/vGPU/Host_Drivers
+sudo apt install ./nvidia-vgpu-ubuntu-525_525.85.07_amd64.deb
+</code></pre>
+<ul>
+<li>Ref: <a href="https://docs.nvidia.com/grid/15.0/grid-vgpu-user-guide/index.html#ubuntu-install-configure-vgpu">link</a></li>
+</ul>
+<h3 id="configuring-vgpu-deprecated">Configuring vGPU [Deprecated]</h3>
+<ul>
+<li>Check domain/bus/slot/function</li>
+</ul>
+<pre><code class="language-bash">admin@cluter-gn1:~$ lsmod | grep vfio
+nvidia_vgpu_vfio       65536  272
+mdev                   28672  1 nvidia_vgpu_vfio
+
+admin@cluter-gn1:~$ lspci | grep NVIDIA
+89:00.0 3D controller: NVIDIA Corporation GV100GL [Tesla V100 SXM2 32GB] (rev a1)
+8a:00.0 3D controller: NVIDIA Corporation GV100GL [Tesla V100 SXM2 32GB] (rev a1)
+b2:00.0 3D controller: NVIDIA Corporation GV100GL [Tesla V100 SXM2 32GB] (rev a1)
+b3:00.0 3D controller: NVIDIA Corporation GV100GL [Tesla V100 SXM2 32GB] (rev a1)
+
+admin@cluter-gn1:~$ virsh nodedev-list --cap pci| grep 89_00_0
+pci_0000_89_00_0
+
+admin@cluter-gn1:~$ virsh nodedev-dumpxml pci_0000_89_00_0 | egrep 'domain|bus|slot|function'
+    &lt;domain&gt;0&lt;/domain&gt;
+    &lt;bus&gt;137&lt;/bus&gt;
+    &lt;slot&gt;0&lt;/slot&gt;
+    &lt;function&gt;0&lt;/function&gt;
+</code></pre>
+<h3 id="create-vgpu-manually">Create vGPU manually</h3>
+<ul>
+<li>Change to the root user</li>
+</ul>
+<pre><code class="language-bash">sudo -i
+</code></pre>
+<ul>
+<li>Seach nvidia profiles<ul>
+<li><code>8Q</code> - 8G/vGPU</li>
+<li><code>16Q</code> - 16G/vGPU</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash">cd /sys/bus/pci/devices/0000:89:00.0/mdev_supported_types
+grep -l &quot;V100DX-8Q&quot; nvidia-*/name
+</code></pre>
+<ul>
+<li>The output:</li>
+</ul>
+<pre><code class="language-bash">nvidia-197/name
+</code></pre>
+<ul>
+<li>Check available instances, the result should be greater than 0</li>
+</ul>
+<pre><code class="language-bash">cat nvidia-197/available_instances
+</code></pre>
+<ul>
+<li>Generate uuid for the vGPU</li>
+</ul>
+<pre><code class="language-bash"># uuidgen
+b87b1cd3-feb8-4ca6-88af-33b3c9f81425
+</code></pre>
+<ul>
+<li>Write the UUID that you obtained in the previous step to the <code>create</code> file in the registration information directory for the vGPU type that you want to create </li>
+</ul>
+<pre><code class="language-bash">echo &quot;b87b1cd3-feb8-4ca6-88af-33b3c9f81425&quot; &gt; nvidia-197/create
+</code></pre>
+<ul>
+<li>Make the mdev device file that you created to represent the vGPU persistent.</li>
+</ul>
+<pre><code class="language-bash">mdevctl define --auto --uuid b87b1cd3-feb8-4ca6-88af-33b3c9f81425
+</code></pre>
+<ul>
+<li>Confirm that the vGPU was created</li>
+</ul>
+<pre><code class="language-bash">ls -l /sys/bus/mdev/devices/
+</code></pre>
+<p>or</p>
+<pre><code class="language-bash">mdevctl list
+</code></pre>
+<h3 id="create-all-vgpu">Create all vGPU</h3>
+<pre><code class="language-bash">cd /mnt/nfs/vGPU
+sudo ./admin-create-all-vgpus.sh -r 8
+</code></pre>
+<ul>
+<li><code>-r 8</code>: choose 8GB of vGPU memory</li>
+</ul>
+<h3 id="adding-one-or-more-vgpus-to-a-linux-with-kvm-hypervisor-vm-by-using-virsh">Adding One or More vGPUs to a Linux with KVM Hypervisor VM by Using virsh</h3>
+<pre><code class="language-bash">virsh edit vgn1
+</code></pre>
+<ul>
+<li>Add device entries</li>
+</ul>
+<pre><code class="language-xml">&lt;device&gt;
+...
+    &lt;hostdev mode='subsystem' type='mdev' model='vfio-pci'&gt;
+      &lt;source&gt;
+        &lt;address uuid=''/&gt;
+      &lt;/source&gt;
+    &lt;/hostdev&gt;
+    &lt;hostdev mode='subsystem' type='mdev' model='vfio-pci'&gt;
+      &lt;source&gt;
+        &lt;address uuid=''/&gt;
+      &lt;/source&gt;
+    &lt;/hostdev&gt;
+&lt;/device&gt;
+</code></pre>
+<ul>
+<li>Start/Restart the VM</li>
+</ul>
+<pre><code class="language-bash">virsh start vgn1
+</code></pre>
+<h2 id="vms">VMs</h2>
+<h3 id="access-to-the-vm-via-virsh">Access to the VM via <code>virsh</code></h3>
+<pre><code class="language-bash">admin@cluter-gn1:/mnt/nfs/vGPU$ virsh list --all
+ Id   Name   State
+----------------------
+ 2    vgn1   running
+
+admin@cluter-gn1:/mnt/nfs/vGPU$ virsh console vgn1
+Connected to domain 'vgn1'
+Escape character is ^] (Ctrl + ])
+
+admin@cluter-vgn1:~$ ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp1s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:05:41:79 brd ff:ff:ff:ff:ff:ff
+    inet 172.20.0.101/24 brd 172.20.0.255 scope global enp1s0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:ff:fe05:4179/64 scope link 
+       valid_lft forever preferred_lft forever
+3: enp2s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:89:d9:16 brd ff:ff:ff:ff:ff:ff
+    inet 172.16.0.41/24 brd 172.16.0.255 scope global enp2s0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:ff:fe89:d916/64 scope link 
+       valid_lft forever preferred_lft forever
+4: enp20s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:51:d3:51 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.33.101/24 brd 192.168.33.255 scope global enp20s0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:ff:fe51:d351/64 scope link 
+       valid_lft forever preferred_lft forever
+</code></pre>
+<ul>
+<li>Install SSH server</li>
+</ul>
+<pre><code class="language-bash">sudo apt install openssh-server
+</code></pre>
+<ul>
+<li>Exit console: <code>Ctrl + ]</code></li>
+</ul>
+<h3 id="access-to-the-vm-via-ssh">Access to the VM via <code>ssh</code></h3>
+<ul>
+<li>Copy ssh key</li>
+</ul>
+<pre><code class="language-bash">ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@172.16.0.101
+</code></pre>
+<ul>
+<li>SSH to the VM</li>
+</ul>
+<pre><code class="language-bash">ssh ubuntu@172.16.0.101
+</code></pre>
+<ul>
+<li>Copy NVIDIA Guest drive and token</li>
+</ul>
+<pre><code class="language-bash">scp /mnt/nfs/vGPU/Guest_Drivers/nvidia-linux-grid-525_525.85.05_amd64.deb ubuntu@172.16.0.101:/home/admin
+scp /mnt/nfs/vGPU/client_configuration_token_03-23-2023-09-07-06.tok ubuntu@172.16.0.101:/home/admin
+</code></pre>
+<ul>
+<li>Install NVIDIA driver</li>
+</ul>
+<pre><code class="language-bash">sudo apt install ./nvidia-linux-grid-525_525.85.05_amd64.deb
+</code></pre>
+<ul>
+<li>Change FeatureType from 0 to 2</li>
+</ul>
+<pre><code class="language-bash">sudo nano /etc/nvidia/gridd.conf
+</code></pre>
+<pre><code># Description: Set Feature to be enabled
+# Data type: integer
+# Possible values:
+#    0 =&gt; for unlicensed state
+#    1 =&gt; for NVIDIA vGPU (Optional, autodetected as per vGPU type)
+#    2 =&gt; for NVIDIA RTX Virtual Workstation
+#    4 =&gt; for NVIDIA Virtual Compute Server
+# All other values reserved
+FeatureType=2
+</code></pre>
+<ul>
+<li>Restart VM</li>
+</ul>
+<pre><code class="language-bash">sudo reboot
+</code></pre>
+<ul>
+<li>SSH to VM</li>
+<li>Copy token</li>
+</ul>
+<pre><code class="language-bash">sudo cp client_configuration_token_03-23-2023-09-07-06.tok /etc/nvidia/ClientConfigToken/
+</code></pre>
+<ul>
+<li>Change mode</li>
+</ul>
+<pre><code class="language-bash">chmod 744 /etc/nvidia/ClientConfigToken/client_configuration_token_03-23-2023-09-07-06.tok
+</code></pre>
+<ul>
+<li>Restart nvidia-gridd deamon</li>
+</ul>
+<pre><code class="language-bash">sudo systemctl restart nvidia-gridd.service
+</code></pre>
+<ul>
+<li>Test</li>
+</ul>
+<pre><code class="language-bash">nvidia-smi -q
+</code></pre>
+<ul>
+<li>Rebooting the VM may save your time when the vGPU does not recognize the license</li>
+</ul>
+<pre><code class="language-bash">sudo reboot
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
