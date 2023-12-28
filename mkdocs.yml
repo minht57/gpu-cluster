@@ -17,4 +17,5 @@ nav:
       - Moodle: setup/moodle.md
       - Jupyter: setup/jupyter.md
       - Others: setup/others.md
+  - Creating new images: new_images/new_images.md
   - Useful commands: commands/commands.md
